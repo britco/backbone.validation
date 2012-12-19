@@ -69,7 +69,10 @@ Backbone.Validation = (function(_){
           flatten(val, into, prefix + key + '.');
         }
         else {
-          into[prefix + key] = val;
+          // Prioritize the setting of the value based on how far down the chain it is
+          if(!((prefix+key) in into) || into[prefix + key] === undefined) {
+            into[prefix + key] = val;
+          }
         }
       }
     });
