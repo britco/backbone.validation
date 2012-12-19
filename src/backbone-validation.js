@@ -54,6 +54,14 @@ Backbone.Validation = (function(_){
   var flatten = function (obj, into, prefix) {
     into = into || {};
     prefix = prefix || '';
+    
+    // If the object is a Backbone.Model, you don't need to flatten the
+    // whole object. Flattening the attrs. array works since those will
+    // be the only values you are validationg.
+    if(obj instanceof Backbone.Model) {
+      obj = obj['attributes'];
+      prefix += 'attributes.';
+    }
 
     _.each(obj, function(val, key) {
       if(obj.hasOwnProperty(key)) {
